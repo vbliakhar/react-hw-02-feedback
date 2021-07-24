@@ -6,7 +6,7 @@ import Section from './components/Section/Section';
 import Notification from './components/Notification/Notification';
 class App extends React.Component {
   state = { good: 0, neutral: 0, bad: 0 };
-  countFeedback = event => {
+  onLeaveFeedback = event => {
     this.setState(prevState => {
       return {
         [event.target.name]: prevState[event.target.name] + 1,
@@ -19,18 +19,23 @@ class App extends React.Component {
   countPositiveFeedbackPercentage() {
     return Math.floor((this.state.good / this.countTotalFeedback()) * 100);
   }
+  randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
   render() {
+    const { good, neutral, bad } = this.state;
     return (
       <div>
         <Section title="Please leave feedback">
-          <FeedbackOptions options={this.countFeedback} onLeaveFeedback={''} />
+          <FeedbackOptions
+            options={Object.keys(this.state)}
+            onLeaveFeedback={this.onLeaveFeedback}
+          />
         </Section>
         <Section title="Statistics">
           {this.countTotalFeedback() > 0 ? (
             <Statistics
-              good={this.state.good}
-              neutral={this.state.neutral}
-              bad={this.state.bad}
+              good={good}
+              neutral={neutral}
+              bad={bad}
               total={this.countTotalFeedback()}
               positivePercentage={this.countPositiveFeedbackPercentage()}
             />

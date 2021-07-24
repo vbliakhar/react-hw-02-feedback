@@ -1,17 +1,22 @@
 import './FeedbackOptions.scss';
-const FeedbackOptions = ({ options }) => {
+
+const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <div className="FeedbackOptions">
-      <button onClick={options} name="good" type="button">
-        Good
-      </button>
-      <button onClick={options} name="neutral" type="button">
-        Neutral
-      </button>
-      <button onClick={options} name="bad" type="button">
-        Bad
-      </button>
+      {options.map(option => {
+        return (
+          <button
+            type="button"
+            key={option}
+            name={option}
+            onClick={onLeaveFeedback}
+          >
+            {option.charAt(0).toUpperCase() + option.slice(1)}
+          </button>
+        );
+      })}
     </div>
   );
 };
+
 export default FeedbackOptions;
